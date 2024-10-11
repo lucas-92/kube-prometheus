@@ -1,0 +1,59 @@
+## Installing Kube Prometheus
+
+Kube Prometheus is distributed by the Prometheus Operator community. You can install it using the manifests available in the Prometheus Operator repository.
+
+Clone the repository:
+```
+git clone https://github.com/prometheus-operator/kube-prometheus.git
+cd kube-prometheus
+```
+
+Apply the namespace creation manifests and CRDs:
+```
+kubectl create -f manifests/setup
+```
+
+Wait until the CRDs are ready by checking their status:
+```
+kubectl get crds
+```
+
+Then, apply the rest of the manifests to install Prometheus, Grafana and Alertmanager:
+```
+kubectl create -f manifests/
+```
+
+Check the exposed services:
+```
+kubectl get svc -n monitoring
+```
+
+Expose Grafana with Port-Forward:
+```
+k port-forward -n monitoring svc/grafana 33000:3000
+```
+
+Expose Prometheus with Port-Forward:
+```
+k port-forward -n monitoring svc/prometheus-k8s 39090:9090
+```
+
+Expose Alertmanager with Port-Forward:
+```
+k port-forward -n monitoring svc/alertmanager-main 39393:9393
+```
+
+To see all created ServiceMonitor, simply run the following command:
+```
+k get servicemonitor -n monitoring
+```
+
+To see the contents of a ServiceMonitor, simply run the following command:
+```
+kubectl get servicemonitor prometheus-k8s -n monitoring -o yaml
+```
+
+To see custom resource definitions:
+```
+k get customresourcedefinitions
+```
