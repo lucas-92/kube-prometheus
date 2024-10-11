@@ -1,13 +1,12 @@
-## O que é um Service Monitor?
-Um Service Monitor é um recurso no Prometheus Operator que define como os serviços em um cluster Kubernetes devem ser monitorados. Ele é usado para especificar quais endpoints o Prometheus deve rastrear para coletar métricas de serviços e aplicações que estão rodando no cluster.
+## What is a Service Monitor?
+A Service Monitor is a feature in Prometheus Operator that defines how services in a Kubernetes cluster should be monitored. It is used to specify which endpoints Prometheus should track to collect metrics from services and applications running on the cluster.
 
-No contexto de Kubernetes, o Prometheus Operator é responsável por automatizar a configuração do Prometheus em um ambiente Kubernetes, facilitando o processo de descobrir e monitorar aplicações rodando no cluster. O Service Monitor faz parte dessa automação e fornece uma maneira de Prometheus descobrir automaticamente os serviços que ele deve monitorar.
-Como funciona o Service Monitor?
+In the context of Kubernetes, the Prometheus Operator is responsible for automating the configuration of Prometheus in a Kubernetes environment, facilitating the process of discovering and monitoring applications running in the cluster. Service Monitor is part of this automation and provides a way for Prometheus to automatically discover the services it should monitor.
 
-O Service Monitor atua como um intermediário entre o Prometheus e os serviços que expõem métricas no Kubernetes. Ele utiliza selectors para identificar serviços que devem ser monitorados e define parâmetros como as portas e os caminhos de onde Prometheus deve coletar as métricas.
-Estrutura básica de um Service Monitor:
+### How does Service Monitor work?
+- Service Monitor acts as an intermediary between Prometheus and services that expose metrics in Kubernetes. It uses selectors to identify services that should be monitored and defines parameters such as the ports and paths from which Prometheus should collect metrics.
 
-### Exemplo de servicemonitor.yaml:
+### Example of servicemonitor.yaml:
 ```
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
@@ -25,23 +24,23 @@ spec:
     path: /metrics
 ```
 
-### Componentes principais:
+### Main components:
 ```
-    metadata.name: Nome do Service Monitor.
-    spec.selector.matchLabels: Especifica as labels que serão usadas para identificar os serviços que o Prometheus deve monitorar. Neste exemplo, o Service Monitor busca por serviços que tenham o rótulo app: minha-aplicacao.
-    spec.endpoints: Define detalhes sobre os endpoints de onde as métricas serão coletadas, como:
-        port: Porta do serviço onde as métricas estão expostas.
-        path: Caminho onde o Prometheus vai acessar as métricas (normalmente /metrics).
-        interval: Frequência com que as métricas serão coletadas.
+    metadata.name: Name of the Service Monitor.
+    spec.selector.matchLabels: Specifies the labels that will be used to identify the services that Prometheus should monitor. In this example, Service Monitor searches for services that have the label app: my-application.
+    spec.endpoints: Defines details about the endpoints from which metrics will be collected, such as:
+        port: Service port where the metrics are exposed.
+        path: Path where Prometheus will access the metrics (normally /metrics).
+        interval: Frequency at which metrics will be collected.
 ```
-### Exemplo de uso
-- Descoberta de Serviços: Prometheus usa o Service Monitor para descobrir automaticamente serviços com métricas expostas. Isso elimina a necessidade de configurar manualmente cada serviço no Prometheus.
-- Monitoramento Centralizado: Você pode ter vários Service Monitors para monitorar diferentes tipos de serviços, o que centraliza o monitoramento sem precisar editar diretamente as configurações do Prometheus.
+### Usage example
+- Service Discovery: Prometheus uses Service Monitor to automatically discover services with exposed metrics. This eliminates the need to manually configure each service in Prometheus.
+- Centralized Monitoring: You can have multiple Service Monitors to monitor different types of services, which centralizes monitoring without having to directly edit Prometheus settings.
 
-### Por que usar Service Monitors?
-- Automatização: O Service Monitor simplifica a configuração, já que novos serviços que seguem o padrão de rotulagem definido podem ser automaticamente descobertos pelo Prometheus.
-- Escalabilidade: Em ambientes dinâmicos, como Kubernetes, onde novos serviços podem ser criados frequentemente, o Service Monitor evita a necessidade de manter configurações de monitoramento manualmente.
-- Integração nativa com Kubernetes: Ele utiliza o sistema de rótulos e selectors do Kubernetes, integrando-se perfeitamente ao ecossistema.
+### Why use Service Monitors?
+- Automation: Service Monitor simplifies configuration, as new services that follow the defined labeling standard can be automatically discovered by Prometheus.
+- Scalability: In dynamic environments, such as Kubernetes, where new services may be created frequently, Service Monitor avoids the need to manually maintain monitoring configurations.
+- Native integration with Kubernetes: It uses the Kubernetes labels and selectors system, integrating perfectly into the ecosystem.
 
-### Resumo
-- O Service Monitor é uma forma eficiente de definir quais serviços e aplicações o Prometheus deve monitorar em um cluster Kubernetes, fornecendo flexibilidade e escalabilidade, especialmente em ambientes com muitas aplicações dinâmicas.
+### Conclusion
+- Service Monitor is an efficient way to define which services and applications Prometheus should monitor in a Kubernetes cluster, providing flexibility and scalability, especially in environments with many dynamic applications.
