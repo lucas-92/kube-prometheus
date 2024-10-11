@@ -73,11 +73,6 @@ kubectl get servicemonitors -n namespace
 kubectl describe servicemonitor-name -n namespace
 ```
 
-- To describe a specific service monitors:
-```
-kubectl describe servicemonitor-name -n namespace
-```
-
 ### Checking
 - We need to use the port-forward to check:
 ```
