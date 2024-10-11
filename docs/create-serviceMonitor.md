@@ -6,7 +6,8 @@ In the context of Kubernetes, the Prometheus Operator is responsible for automat
 ### How does Service Monitor work?
 - Service Monitor acts as an intermediary between Prometheus and services that expose metrics in Kubernetes. It uses selectors to identify services that should be monitored and defines parameters such as the ports and paths from which Prometheus should collect metrics.
 
-### Example of servicemonitor.yaml:
+### Examples of servicemonitor.yaml
+- servicemonitor.yaml:
 ```
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
@@ -23,6 +24,23 @@ spec:
     interval: 30s
     path: /metrics
 ```
+- nginx-servicemonitor.yaml: 
+```
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: nginx-servicemonitor
+  labels:
+    app: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  endpoints:
+  - interval: 30s
+    path: /metrics
+    targetPort: 9113
+```
 
 ### Main components:
 ```
@@ -33,6 +51,40 @@ spec:
         path: Path where Prometheus will access the metrics (normally /metrics).
         interval: Frequency at which metrics will be collected.
 ```
+### Useful commands with service monitor:
+
+- Applying in the cluster:
+```
+kubectl apply -f servicemonitor.yaml
+```
+
+- To list all service monitors in the cluster:
+```
+kubectl get servicemonitors -A
+```
+
+- To list service monitors in a specific name space:
+```
+kubectl get servicemonitors -n namespace
+```
+
+- To describe a specific service monitors:
+```
+kubectl describe servicemonitor-name -n namespace
+```
+
+- To describe a specific service monitors:
+```
+kubectl describe servicemonitor-name -n namespace
+```
+
+### Checking
+- We need to use the port-forward to check:
+```
+kubectl port-forward -n monitoring svc/prometheus-k8s 39090:9090
+```
+- After port-forward we can check the created servicemonitor in the "Targets" of Prometheus (localhost:39090 in this case).
+
 ### Usage example
 - Service Discovery: Prometheus uses Service Monitor to automatically discover services with exposed metrics. This eliminates the need to manually configure each service in Prometheus.
 - Centralized Monitoring: You can have multiple Service Monitors to monitor different types of services, which centralizes monitoring without having to directly edit Prometheus settings.
