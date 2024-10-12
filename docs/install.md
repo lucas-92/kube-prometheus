@@ -91,7 +91,7 @@ spec:
                 number: 9093
 ```
 
-2. Add the `grafana.env.local` and `prometheus.env.local` in the host file as the host name for: 127.0.0.1:
+2. Add the `grafana.env.local`, `prometheus.env.local` and `alertmanager.env.local` in the host file as the host name for: 127.0.0.1:
 ```
 sudo vim /etc/hosts 
 ```
