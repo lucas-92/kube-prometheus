@@ -59,17 +59,20 @@ PodMonitor uses label selectors to find the Pods you want to monitor, and then d
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  name: pod-monitor-example
+  name: nginx-podmonitor
   labels:
-    team: devops
+    app: nginx
 spec:
+  namespaceSelector:
+    matchNames:
+      - default
   selector:
     matchLabels:
-      app: minha-aplicacao
+      app: nginx
   podMetricsEndpoints:
-  - port: metrics
+  - interval: 10s
     path: /metrics
-    interval: 30s
+    targetPort: 9113
 ```
 
 Explanation of Fields:
