@@ -30,19 +30,22 @@ kubectl get svc -n monitoring
 
 ## Exposing
 ### Port-Forward:
+
+Grafana:
 ```
 k port-forward -n monitoring svc/grafana 33000:3000
 ```
 
-Expose Prometheus with Port-Forward:
+Prometheus:
 ```
 k port-forward -n monitoring svc/prometheus-k8s 39090:9090
 ```
 
-Expose Alertmanager with Port-Forward:
+Alertmanager:
 ```
 k port-forward -n monitoring svc/alertmanager-main 39393:9393
 ```
+
 ### Ingress:
 1. Create the monitoring-ingress.yaml file:
 ```
@@ -83,10 +86,14 @@ spec:
 sudo vim /etc/hosts 
 ```
 
-3. Aplique o monitoring-ingress.yaml para criar o ingress:
+3. Aplique o monitoring-ingress.yaml para criar o Ingress:
 ```
 kubectl apply -f monitoring-ingress.yaml 
 ```
+
+## Login and Password 1st Grafana Access:
+- Login: admin
+- password: admin
 
 ## Commands
 To see all created ServiceMonitor, simply run the following command:
