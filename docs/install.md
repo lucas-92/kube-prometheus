@@ -69,7 +69,7 @@ spec:
               name: prometheus-k8s
               port:
                 number: 9090
-  - host: prometheus.env.local
+  - host: grafana.env.local
     http:
       paths:
         - path: /
@@ -79,6 +79,16 @@ spec:
               name: grafana
               port:
                 number: 3000
+  - host: alertmanager.env.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: alertmanager-main
+                port:
+                  number: 9393
 ```
 
 2. Add the `grafana.env.local` and `prometheus.env.local` in the host file as the host name for: 127.0.0.1:
