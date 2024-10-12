@@ -44,7 +44,7 @@ Expose Alertmanager with Port-Forward:
 k port-forward -n monitoring svc/alertmanager-main 39393:9393
 ```
 ### Ingress:
-Create the ingress.yaml file:
+1. Create the monitoring-ingress.yaml file:
 ```
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -77,9 +77,15 @@ spec:
               port:
                 number: 3000
 ```
-Add the `grafana.env.local` and `prometheus.env.local` in the host file as the host name for: 127.0.0.1:
+
+2. Add the `grafana.env.local` and `prometheus.env.local` in the host file as the host name for: 127.0.0.1:
 ```
 sudo vim /etc/hosts 
+```
+
+3. Aplique o monitoring-ingress.yaml para criar o ingress:
+```
+kubectl apply -f monitoring-ingress.yaml 
 ```
 
 ## Commands
