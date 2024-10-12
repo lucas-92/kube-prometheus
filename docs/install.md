@@ -49,7 +49,7 @@ k port-forward -n monitoring svc/alertmanager-main 39393:9393
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: the-monitoring-ingress
+  name: monitoring-ingress
   namespace: monitoring
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
