@@ -1,5 +1,4 @@
-## Installing Kube Prometheus
-
+# Installing Kube Prometheus
 Kube Prometheus is distributed by the Prometheus Operator community. You can install it using the manifests available in the Prometheus Operator repository.
 
 Clone the repository:
@@ -28,7 +27,9 @@ Check the exposed services:
 kubectl get svc -n monitoring
 ```
 
-Expose Grafana with Port-Forward:
+
+## Exposing
+### Port-Forward:
 ```
 k port-forward -n monitoring svc/grafana 33000:3000
 ```
@@ -42,7 +43,46 @@ Expose Alertmanager with Port-Forward:
 ```
 k port-forward -n monitoring svc/alertmanager-main 39393:9393
 ```
+### Ingress:
+Create the ingress.yaml file:
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metada:
+  name: monitoring-ingress
+  namespace: monitoring
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: prometheus.env.local
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: prometheus-k8s
+              port:
+                number: 9090
+  - host: grafana.env.local
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: grafana
+              port:
+                number: 3000
+```
+Add the `grafana.env.local` and `prometheus.env.local` in the host file as the host name for: 127.0.0.1:
+```
+sudo vim /etc/hosts 
+```
 
+## Commands
 To see all created ServiceMonitor, simply run the following command:
 ```
 k get servicemonitor -n monitoring
