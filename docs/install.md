@@ -48,8 +48,8 @@ k port-forward -n monitoring svc/alertmanager-main 39393:9393
 ```
 apiVersion: networking.k8s.io/v1
 kind: Ingress
-metada:
-  name: monitoring-ingress
+metadata:
+  name: the-monitoring-ingress
   namespace: monitoring
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
@@ -66,7 +66,7 @@ spec:
               name: prometheus-k8s
               port:
                 number: 9090
-  - host: grafana.env.local
+  - host: prometheus.env.local
     http:
       paths:
         - path: /
