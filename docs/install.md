@@ -43,7 +43,7 @@ k port-forward -n monitoring svc/prometheus-k8s 39090:9090
 
 Alertmanager:
 ```
-k port-forward -n monitoring svc/alertmanager-main 39393:9393
+k port-forward -n monitoring svc/alertmanager-main 39093:9093
 ```
 
 ### Ingress:
@@ -80,15 +80,15 @@ spec:
               port:
                 number: 3000
   - host: alertmanager.env.local
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: alertmanager-main
-                port:
-                  number: 9393
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: alertmanager-main
+              port:
+                number: 9093
 ```
 
 2. Add the `grafana.env.local` and `prometheus.env.local` in the host file as the host name for: 127.0.0.1:
